@@ -1,7 +1,5 @@
 """
---Не закончена--
---Данный файл не актуален--
-Все что есть - это генерация одного поля.
+!--Not actual. Be deleted after done main version--!
 """
 
 import random

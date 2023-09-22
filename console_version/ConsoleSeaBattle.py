@@ -1,5 +1,5 @@
 """
-----В процессе разработки----
+----In process----
 """
 
 from abc import ABC
