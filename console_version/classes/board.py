@@ -5,32 +5,24 @@ Classes responsible for the visual part
 """
 from console_version.classes.ships import Ship
 from console_version.app_config.settings import SHIP, DEFEATED_SHIP, EMPTY
-from console_version.app_config.exceptions import OutOfField, InSameDot
+from console_version.app_config.exceptions import InSameDot
 
 
 class Board:
+
     def __init__(self, ships_set: tuple, hide: bool):
         self._ships_set = ships_set
         self.hide = hide
 
         self._ship = Ship
         self.battle_field = self.new_field()
-        # self._ships_set = ShipsSet().create_set()
 
-        # self.all_hp = 12
-        self.letters = [" ", "A", "B", "C", "D", "E", "F"]
-        # self.check_near = "T"
         self.ship_object = SHIP
         self.defeated_ship = DEFEATED_SHIP
         self.empty_cell = EMPTY
         self.checked_cell = []
-
-        self.dots_ships = []
-        self.for_near_dict = []
-
         self.ships_on_desk = []
         self.busy_dots = []
-        self.all_ships_dots = []
 
     @staticmethod
     def new_field():
@@ -55,17 +47,17 @@ class Board:
     def set_hide_param(self):
         self.hide = True
 
-    def print_field(self):
-        print(*self.letters)
-        
-        for i in enumerate(self.battle_field):
-            print(i[0] + 1, end=' ')
-            for j in i[1]:
-                if self.hide:
-                    print(' ', end=' ')
-                else:
-                    print(j, end=' ')
-            print()
+    # def print_field(self):
+    #     print(*self.letters)
+    #
+    #     for i in enumerate(self.battle_field):
+    #         print(i[0] + 1, end=' ')
+    #         for j in i[1]:
+    #             if self.hide:
+    #                 print(' ', end=' ')
+    #             else:
+    #                 print(j, end=' ')
+    #         print()
 
     def add_dots(self, ship_dots):
         around_ship_dots = []
@@ -131,7 +123,6 @@ class Board:
                 self.battle_field[y][x] = self.defeated_ship
                 _ = self.check_hp((x, y))
                 if _:
-                    # print(_.get_around_ship_space())
                     self.checked_cell.append((x, y))
                     self.fill_around_ship(_.get_around_ship_space())
                     return True, f'{_.get_name()} противника повержен!'
@@ -156,18 +147,17 @@ class BoardsPrinter:
         self.letters = [" ", "A", "B", "C", "D", "E", "F"]
 
     def printer(self, checked_dots):
-        print(checked_dots)
         print(*self.letters, ' ' * 12, *self.letters)
         for i in range(6):
             if self.enemy_board_info.hide:
-
-
+                some = []
+                for j in range(6):
+                    if (j, i) in checked_dots:
+                        some.append(self.enemy_board_info.battle_field[i][j])
+                    else:
+                        some.append(' ')
                 print(i + 1, *self.player_board_info.battle_field[i], '|', ' ' * 10,
-                      i + 1, *[self.enemy_board_info.battle_field[i][dot[1]] if dot in checked_dots else 'T' for dot in
-               checked_dots], '|')
-                # print(i + 1, *self.player_board_info.battle_field[i], '|', ' ' * 10,
-                #       i + 1, *[' '] * 6, '|')
-
+                      i + 1, *some, '|')
             else:
                 print(i + 1, *self.player_board_info.battle_field[i], ' ' * 10,
                       i + 1, *self.enemy_board_info.battle_field[i])

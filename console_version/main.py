@@ -47,7 +47,10 @@ def change_player(turn_player):
 
 
 while True:
-    board_printer.printer(change_player(now_turn_player).get_already_shoot())
+    if now_turn_player == player2:
+        board_printer.printer(now_turn_player.get_already_shoot())
+    else:
+        board_printer.printer(change_player(now_turn_player).get_already_shoot())
     print('\nNow turn: ' + now_turn_player.get_name())
     dot = now_turn_player.shot()
 
@@ -68,6 +71,7 @@ while True:
 
             continue
         print(another_shot[1])
+    print(f'[ERROR] ' + dot)
 
 board_printer.printer(change_player(now_turn_player).get_already_shoot())
 print('\nVictory for: ' + now_turn_player.get_name())
