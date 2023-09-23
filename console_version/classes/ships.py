@@ -11,11 +11,8 @@ class Ship:
         self.__hp = hp
 
         self._direction = random.choice(("VERTICAL", "HORIZONTAL"))
-
         self._nose_dot = self.__place_nose_ship(self._direction, self.__hp)
-
         self._ship_dots = self._preplace_ship()
-        # self.circle_fill = self.__add_circle_fill(self._direction, self._nose_dot, self._ship_dots)
         self._around_ship_space = []
 
     @staticmethod
@@ -69,24 +66,3 @@ class Ship:
     def hp_update(self):
         self.__hp -= 1
         return self.get_hp()
-
-# class ShipsSet:
-#
-#     def __init__(self):
-#         self.count_battleship = 1
-#         self.count_cruiser = 2
-#         self.count_speedboat = 4
-#         self._set_ships = self.create_set()
-#
-#     def create_set(self):
-#         l = []
-#         for i in range(self.count_battleship):
-#             l.append(Ship('Линкор', 3))
-#         for i in range(self.count_cruiser):
-#             l.append(Ship('Крейсер', 2))
-#         for i in range(self.count_speedboat):
-#             l.append(Ship('Катер', 1))
-#         return l
-#
-#     def get_ships_set(self):
-#         return self._set_ships

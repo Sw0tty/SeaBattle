@@ -23,6 +23,7 @@ class Board:
         self.ship_object = SHIP
         self.defeated_ship = DEFEATED_SHIP
         self.empty_cell = EMPTY
+        self.checked_cell = []
 
         self.dots_ships = []
         self.for_near_dict = []
@@ -37,6 +38,7 @@ class Board:
 
     def fill_around_ship(self, around_dots):
         for dot in around_dots:
+            self.checked_cell.append(dot)
             self.battle_field[dot[1]][dot[0]] = self.empty_cell
 
     def check_alive_ships(self):
@@ -65,11 +67,6 @@ class Board:
                     print(j, end=' ')
             print()
 
-    # def add_dots(self, ship_dots):
-    #
-    #
-    #     self.add_around_dots(ship_dots)
-
     def add_dots(self, ship_dots):
         around_ship_dots = []
         for dot in ship_dots:
@@ -86,9 +83,9 @@ class Board:
                 (dot[0] + 1, dot[1] + 1),
                 (dot[0], dot[1] + 1)
             ]
+
             for new_dot in dots:
-                if (0 <= new_dot[0] < 6) and\
-                        (0 <= new_dot[1] < 6) and new_dot not in ship_dots:
+                if (0 <= new_dot[0] < 6) and (0 <= new_dot[1] < 6) and new_dot not in ship_dots:
                     around_ship_dots.append(new_dot)
                 if new_dot in self.busy_dots or (new_dot[0] > 5 or new_dot[0] < 0) or\
                         (new_dot[1] > 5 or new_dot[1] < 0):
@@ -135,16 +132,19 @@ class Board:
                 _ = self.check_hp((x, y))
                 if _:
                     # print(_.get_around_ship_space())
+                    self.checked_cell.append((x, y))
                     self.fill_around_ship(_.get_around_ship_space())
-                    return f'{_.get_name()} противника повержен!'
-                return 'There is a hit!'
+                    return True, f'{_.get_name()} противника повержен!'
+                self.checked_cell.append((x, y))
+                return True, 'There is a hit!'
             if self.battle_field[y][x] == ' ':
                 self.battle_field[y][x] = self.empty_cell
-                return 'Miss'
+                self.checked_cell.append((x, y))
+                return False, 'Miss'
         except InSameDot:
-            return 'Shot in shooted cell'
+            return True, 'Shot in shooted cell'
         except IndexError:
-            return 'Out of field!'
+            return True, 'Out of field!'
 
 
 class BoardsPrinter:
@@ -155,12 +155,20 @@ class BoardsPrinter:
 
         self.letters = [" ", "A", "B", "C", "D", "E", "F"]
 
-    def printer(self):
-        print(*self.letters, ' ' * 10, *self.letters)
+    def printer(self, checked_dots):
+        print(checked_dots)
+        print(*self.letters, ' ' * 12, *self.letters)
         for i in range(6):
-            # if self.enemy_board_info.hide:
-            #     print(i + 1, *self.player_board_info.battle_field[i], ' ' * 10,
-            #           i + 1, *[' '] * 6)
+            if self.enemy_board_info.hide:
 
-            print(i + 1, *self.player_board_info.battle_field[i], ' ' * 10,
-                  i + 1, *self.enemy_board_info.battle_field[i])
+
+                print(i + 1, *self.player_board_info.battle_field[i], '|', ' ' * 10,
+                      i + 1, *[self.enemy_board_info.battle_field[i][dot[1]] if dot in checked_dots else 'T' for dot in
+               checked_dots], '|')
+                # print(i + 1, *self.player_board_info.battle_field[i], '|', ' ' * 10,
+                #       i + 1, *[' '] * 6, '|')
+
+            else:
+                print(i + 1, *self.player_board_info.battle_field[i], ' ' * 10,
+                      i + 1, *self.enemy_board_info.battle_field[i])
+        print(' ', '-' * 12, ' ' * 13, '-' * 12)

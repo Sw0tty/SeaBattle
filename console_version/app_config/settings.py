@@ -19,6 +19,3 @@ SHIPS_SET = (
 # Bot settings
 SIMULATION_OF_CHOICE = True
 CHOOSING_TIME = 2
-
-# Language
-SUPPORT_LANGUAGE = ('en', 'ru')
