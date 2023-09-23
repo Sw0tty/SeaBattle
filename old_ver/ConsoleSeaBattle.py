@@ -1,5 +1,5 @@
 """
-----In process----
+!--Not actual. Be deleted after done main version--!
 """
 
 from abc import ABC
