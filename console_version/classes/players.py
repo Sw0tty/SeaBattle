@@ -19,8 +19,9 @@ class AI:
         if choice_sim:
             print("Choosing cell...")
             time.sleep(time_wait)
-
-        return tuple((random.randrange(0, 6), random.randrange(0, 6)))
+        cell = tuple((random.randrange(0, 6), random.randrange(0, 6)))
+        print(f"Think: {chr(cell[0] + 65)}{cell[1]}")
+        return cell
 
     def get_name(self):
         return self.__name

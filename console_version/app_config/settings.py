@@ -19,3 +19,7 @@ SHIPS_SET = (
 # Bot settings
 SIMULATION_OF_CHOICE = True
 CHOOSING_TIME = 2
+HIDE_FIELD = True
+
+# Console message codes
+ERROR = "\033[31m" + "ERROR" + "\033[0m"

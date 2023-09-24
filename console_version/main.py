@@ -4,7 +4,7 @@ Main file for playing
 import random
 import time
 
-from app_config.settings import SHIPS_SET
+from app_config.settings import SHIPS_SET, ERROR
 from classes.ships import Ship
 from classes.board import Board, BoardsPrinter
 from console_version.app_config.exceptions import *
@@ -26,7 +26,7 @@ while True:
 
 # Player2 initialization
 while True:
-    board2 = Board(SHIPS_SET, True)
+    board2 = Board(SHIPS_SET, False)
     field_ready = board2.add_ships()
     if field_ready:
         player2 = AI(board=board2, name='Bot')
@@ -38,7 +38,9 @@ board_printer = BoardsPrinter(board1, board2)
 
 
 # Game
-print("""--- Welcome to game, 'SeaBattle'! ---""")
+print("┏" + "-" * 39 + "┓", """|     Welcome to game, 'SeaBattle'!     |""", "┗" + "-" * 39 + "┛", sep='\n')
+
+
 now_turn_player = player1 if random.randrange(0, 2) == 1 else player2
 
 
@@ -71,7 +73,9 @@ while True:
 
             continue
         print(another_shot[1])
-    print(f'[ERROR] ' + dot)
+    else:
+        print(f'[{ERROR}] ' + dot)
+        time.sleep(2)
 
 board_printer.printer(change_player(now_turn_player).get_already_shoot())
 print('\nVictory for: ' + now_turn_player.get_name())
