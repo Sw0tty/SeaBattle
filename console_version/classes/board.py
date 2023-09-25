@@ -3,7 +3,7 @@ Classes responsible for the visual part
     Board - contains information about the location of ships
     BoardsPrinter - displays the boards next to each other
 """
-from classes.ships import Ship
+from .ships import Ship
 from app_config.settings import SHIP, DEFEATED_SHIP, EMPTY
 from app_config.exceptions import InSameDot
 
@@ -112,7 +112,7 @@ class Board:
 
             if ship_is_defeat:
                 self.fill_around_ship(ship_is_defeat.get_around_ship_space())
-                return True, f'{ship_is_defeat.get_name()} противника повержен!\n'
+                return True, f'{ship_is_defeat.get_name()} противника повержен!'
             return True, 'There is a hit!'
         
         if self.battle_field[y][x] == ' ':
@@ -140,7 +140,7 @@ class BoardsPrinter:
         return f"""{player1_title}{' ' * space}{player2_title}"""
 
     def printer(self, checked_dots):
-        print(self.get_fields_titles())
+        print('\n', self.get_fields_titles())
         print(*self.__letters, ' ' * 12, *self.__letters)
         for i in range(6):
             if self.enemy_board_info.hide:

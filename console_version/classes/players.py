@@ -14,10 +14,6 @@ class BasePlayer:
         self.__name = name
         self.__board = board
     
-    @staticmethod
-    def shot():
-        pass
-    
     def get_name(self):
         return self.__name
 
@@ -41,7 +37,7 @@ class AI(BasePlayer):
             cell = tuple((random.randrange(0, 6), random.randrange(0, 6)))
             if cell not in already_shoot:
                 break
-        print(f"Think: {chr(cell[0] + 65)}{cell[1] + 1}\n")
+        print(f"Think: {chr(cell[0] + 65)}{cell[1] + 1}")
         time.sleep(1)
         return cell
 

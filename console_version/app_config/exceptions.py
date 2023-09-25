@@ -1,7 +1,6 @@
 """
 Game exceptions
 """
-import colorsys
 
 
 class OutOfField(Exception):
@@ -18,4 +17,3 @@ class BadSettings(Exception):
 
     def __str__(self):
         return """Check 'SHIPS_SET' in settings."""
-

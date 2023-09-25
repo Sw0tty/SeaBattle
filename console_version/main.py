@@ -4,33 +4,8 @@ Main file for playing
 import random
 import time
 
-from app_config.exceptions import *
 from app_config.initialization import board1, board2, player1, player2, board_printer
 from app_config.settings import WARNING
-
-
-# # Player1 initialization
-# while True:
-#     board1 = Board(SHIPS_SET, False)
-#     field_ready = board1.add_ships()
-#     if field_ready:
-#         # username = name_setter()
-#         name = 'Tester'
-#         player1 = Player(board=board1, name=name)
-#         break
-
-
-# # Player2 initialization
-# while True:
-#     board2 = Board(SHIPS_SET, HIDE_FIELD)
-#     field_ready = board2.add_ships()
-#     if field_ready:
-#         player2 = AI(board=board2, name='Bot')
-#         break
-
-
-# # BoardsPrinter initialization
-# board_printer = BoardsPrinter(board1, player1.get_name(), board2, player2.get_name())
 
 
 def change_player(turn_player=None, new_game=False):
