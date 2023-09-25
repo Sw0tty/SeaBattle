@@ -22,4 +22,5 @@ CHOOSING_TIME = 2
 HIDE_FIELD = True
 
 # Console message codes
-ERROR = "\033[31m" + "ERROR" + "\033[0m"
+WARNING = "\033[1;33m" + "WARNING" + "\033[0m"
+INFO = "\033[0;32m" + "INFO" + "\033[0m"
