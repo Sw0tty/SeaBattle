@@ -12,7 +12,7 @@ from classes.players import AI, Player
 print("┏" + "-" * 39 + "┓", """|     Welcome to game, 'SeaBattle'!     |""", "┗" + "-" * 39 + "┛", sep='\n')
 
 
-# Name initializator
+# Name initialization
 def name_setter():
     while True:
         username = input(f"""[{INFO}] Before we're started, please, input you're name: """).strip()
@@ -26,7 +26,6 @@ while True:
     field_ready = board1.add_ships()
     if field_ready:
         username = name_setter()
-        username = 'Tester'
         player1 = Player(board=board1, name=username)
         break
 
