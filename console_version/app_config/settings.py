@@ -28,4 +28,9 @@ HIDE_FIELD = True
 
 # Console message codes
 WARNING = Fore.YELLOW + "WARNING" + Style.RESET_ALL
-INFO = Fore.GREEN + "HELP" + Style.RESET_ALL
+HELP_STR = Fore.GREEN + "HELP" + Style.RESET_ALL
+INFO = Fore.CYAN + "INFO" + Style.RESET_ALL
+
+# Language
+SUPPORTED_LANGUAGE = ('en', 'ru')
+LANGUAGE = 'ru'

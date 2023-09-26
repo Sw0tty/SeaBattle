@@ -3,19 +3,26 @@ Initialization file
     Create board, players and place ships on board
 """
 from .exceptions import BadSettings
-from .settings import SHIPS_SET, HIDE_FIELD, INFO
+from .settings import SHIPS_SET, HIDE_FIELD, HELP_STR, LANGUAGE
 from classes.board import Board, BoardsPrinter
 from classes.players import AI, Player
 
 
+match LANGUAGE:
+    case 'en':
+        from app_config.localization import en as replies
+    case 'ru':
+        from app_config.localization import ru as replies
+
+
 # Game
-print("┏" + "-" * 39 + "┓", """|     Welcome to game, 'SeaBattle'!     |""", "┗" + "-" * 39 + "┛", sep='\n')
+print("┏" + "-" * 39 + "┓", "|" + (replies.WELCOME_STR).center(39) + "|", "┗" + "-" * 39 + "┛", sep='\n')
 
 
 # Name initialization
 def name_setter():
     while True:
-        username = input(f"""[{INFO}] Before we're started, please, input you're name: """).strip()
+        username = input(f"""[{HELP_STR}] {replies.NAME_STR}""").strip()
         if username:
             return username
 

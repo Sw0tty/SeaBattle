@@ -5,7 +5,14 @@ import random
 import time
 
 from app_config.initialization import board1, board2, player1, player2, board_printer
-from app_config.settings import WARNING
+from app_config.settings import WARNING, LANGUAGE
+
+
+match LANGUAGE:
+    case 'en':
+        from app_config.localization import en as replies
+    case 'ru':
+        from app_config.localization import ru as replies
 
 
 def player_switcher(turn_player=None, new_game=False):
@@ -21,7 +28,7 @@ while True:
         board_printer.printer(now_turn_player.get_already_shoot())
     else:
         board_printer.printer(player_switcher(now_turn_player).get_already_shoot())
-    print('\nNow turn: ' + now_turn_player.get_name())
+    print('\n' + replies.PLAYER_TURN + now_turn_player.get_name())
     dot = now_turn_player.shot(player_switcher(now_turn_player).get_already_shoot())
 
     if isinstance(dot, tuple):
@@ -49,4 +56,4 @@ while True:
 
 board2.set_hide_param()
 board_printer.printer(player_switcher(now_turn_player).get_already_shoot())
-print('\nVictory for: ' + now_turn_player.get_name())
+print('\n' + replies.VICTORY_STR + now_turn_player.get_name())

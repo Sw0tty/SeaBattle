@@ -4,7 +4,14 @@ Classes responsible for the visual part
     BoardsPrinter - displays the boards next to each other
 """
 from .ships import Ship
-from app_config.settings import SHIP, DEFEATED_SHIP, EMPTY
+from app_config.settings import SHIP, DEFEATED_SHIP, EMPTY, LANGUAGE
+
+
+match LANGUAGE:
+    case 'en':
+        from app_config.localization import en as replies
+    case 'ru':
+        from app_config.localization import ru as replies
 
 
 class Board:
@@ -105,12 +112,12 @@ class Board:
 
             if ship_is_defeat:
                 self.fill_around_ship(ship_is_defeat.get_around_ship_space())
-                return True, f'{ship_is_defeat.get_name()} противника повержен!'
-            return True, 'There is a hit!'
+                return True, replies.ship_defeatead(ship_is_defeat.get_name())
+            return True, replies.HIT
         
         if self.battle_field[y][x] == ' ':
             self.battle_field[y][x] = self.empty_cell
-            return False, 'Miss'
+            return False, replies.MISS
 
 
 class BoardsPrinter:
@@ -124,8 +131,8 @@ class BoardsPrinter:
         self.__letters = [" ", "A", "B", "C", "D", "E", "F"]
 
     def get_fields_titles(self):
-        player1_title = (self.__player_name + ' field.').ljust(15)
-        player2_title = (self.__enemy_name + ' field.').ljust(15)
+        player1_title = (self.__player_name + replies.FIELD_TITLE).ljust(15)
+        player2_title = (self.__enemy_name + replies.FIELD_TITLE).ljust(15)
         space = 14
         if len(player1_title) > 14:
             space -= (len(player1_title) - 13)
