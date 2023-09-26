@@ -19,34 +19,9 @@ def name_setter():
         if username:
             return username
 
-# v = 0
-# # Player1 initialization
-# while True:
-#     board1 = Board(SHIPS_SET, False)
-#     field_ready = board1.add_ships()
-#     v += 1
-#     if v >= 30:
-#         raise BadSettings
-#     if field_ready:
-#         username = name_setter()
-#         player1 = Player(board=board1, name=username)
-#         break
-
-# v = 0
-# # Player2 initialization
-# while True:
-#     board2 = Board(SHIPS_SET, HIDE_FIELD)
-#     field_ready = board2.add_ships()
-#     v += 1
-#     if v >= 30:
-#         raise BadSettings
-#     if field_ready:
-#         player2 = AI(board=board2, name='Bot')
-#         break
-
 
 # Players initialization
-def main_initialization(player_class):
+def main_initialization(player_class, player_name='Bot'):
     try_ = 0
     while True:
         board = Board(SHIPS_SET, HIDE_FIELD)
@@ -55,11 +30,11 @@ def main_initialization(player_class):
         if try_ >= 30:
             raise BadSettings
         if field_ready:
-            player = player_class(board=board, name='Bot')
+            player = player_class(board=board, name=player_name)
             return board, player
 
 
-board1, player1 = main_initialization(Player)
+board1, player1 = main_initialization(Player, name_setter())
 board2, player2 = main_initialization(AI)
 
 # BoardsPrinter initialization

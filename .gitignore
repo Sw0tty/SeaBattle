@@ -2,3 +2,4 @@
 .idea/
 venv/
 cache_files/**
+**/output/

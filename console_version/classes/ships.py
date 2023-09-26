@@ -16,15 +16,6 @@ class Ship:
         self._around_ship_space = []
 
     @staticmethod
-    def __add_circle_fill(direction, nose_dot, ship_dots):
-        circle = []
-        for dot in ship_dots:
-            if dot in circle:
-                circle.remove(dot)
-            circle.append((dot[0] - 1, dot[1] - 1))
-        return ()
-
-    @staticmethod
     def __place_nose_ship(direction, hp):
         while True:
             rand_nose_dot = (random.randint(0, 5), random.randint(0, 5))

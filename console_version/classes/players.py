@@ -18,7 +18,7 @@ class BasePlayer:
         return self.__name
 
     def get_already_shoot(self):
-        return self.__board.checked_cell
+        return self.__board.busy_dots
 
     def alive_ships(self):
         return self.__board.ships_on_desk

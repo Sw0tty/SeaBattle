@@ -1,11 +1,16 @@
 """
 Settings file
 """
+from colorama import Fore, Style, init
+
+
+# Initialization console colors
+init()
 
 # Game board pictograms
 EMPTY = '•'  # for circle dead ships and miss shots
 SHIP = '■'
-DEFEATED_SHIP = '✕'
+DEFEATED_SHIP = 'x'
 
 # Ships set (count on board, (name, hp)).
 # WARNING! These are the optimal values.
@@ -22,5 +27,5 @@ CHOOSING_TIME = 2
 HIDE_FIELD = True
 
 # Console message codes
-WARNING = "\033[1;33m" + "WARNING" + "\033[0m"
-INFO = "\033[0;32m" + "INFO" + "\033[0m"
+WARNING = Fore.YELLOW + "WARNING" + Style.RESET_ALL
+INFO = Fore.GREEN + "HELP" + Style.RESET_ALL

@@ -5,7 +5,6 @@ Classes responsible for the visual part
 """
 from .ships import Ship
 from app_config.settings import SHIP, DEFEATED_SHIP, EMPTY
-from app_config.exceptions import InSameDot
 
 
 class Board:
@@ -20,19 +19,13 @@ class Board:
         self.ship_object = SHIP
         self.defeated_ship = DEFEATED_SHIP
         self.empty_cell = EMPTY
-        self.checked_cell = []
-        self.ships_on_desk = []
+        self.ships_on_desk = []   
         self.busy_dots = []
 
     @staticmethod
     def new_field():
         return [[" "] * 6 for _ in range(6)]
-
-    def fill_around_ship(self, around_dots):
-        for dot in around_dots:
-            self.checked_cell.append(dot)
-            self.battle_field[dot[1]][dot[0]] = self.empty_cell
-
+    
     def check_alive_ships(self):
         return self.ships_on_desk
 
@@ -43,6 +36,11 @@ class Board:
                     defeated_ship = self.ships_on_desk.pop(self.ships_on_desk.index(ship))
                     return defeated_ship
                 break
+
+    def fill_around_ship(self, around_dots):
+        for dot in around_dots:
+            self.busy_dots.append(dot)
+            self.battle_field[dot[1]][dot[0]] = self.empty_cell
 
     def set_hide_param(self):
         self.hide = True
@@ -76,9 +74,8 @@ class Board:
 
     def cell_is_busy(self, ship):
         for dot in ship.get_ship_dots():
-            busy = self.check_around(dot)
-            if busy:
-                return True
+            if dot in self.busy_dots:
+                return True 
 
     def add_ships(self):
         for set_ in self._ships_set:
@@ -93,18 +90,14 @@ class Board:
                     if try_count >= 10:
                         return False
 
-                r = self.add_dots(ship.get_ship_dots())
-                ship.set_around_ship_space(r)
+                ship_dots = self.add_dots(ship.get_ship_dots())
+                ship.set_around_ship_space(ship_dots)
                 self.ships_on_desk.append(ship)
+        self.busy_dots.clear()
         return True
 
-    def check_around(self, dot):
-        if dot in self.busy_dots:
-            return True
-        return False
-
     def blast_on_board(self, x, y):
-        self.checked_cell.append((x, y))
+        self.busy_dots.append((x, y))
         
         if self.battle_field[y][x] == self.ship_object:
             self.battle_field[y][x] = self.defeated_ship
@@ -123,16 +116,16 @@ class Board:
 class BoardsPrinter:
 
     def __init__(self, player_board: Board, player_name: str, enemy_board: Board, enemy_name: str):
-        self.player_board_info = player_board
-        self.player_name = player_name
-        self.enemy_board_info = enemy_board
-        self.enemy_name = enemy_name
+        self.__player_board_info = player_board
+        self.__player_name = player_name
+        self.__enemy_board_info = enemy_board
+        self.__enemy_name = enemy_name
 
         self.__letters = [" ", "A", "B", "C", "D", "E", "F"]
 
     def get_fields_titles(self):
-        player1_title = (self.player_name + ' field.').ljust(15)
-        player2_title = (self.enemy_name + ' field.').ljust(15)
+        player1_title = (self.__player_name + ' field.').ljust(15)
+        player2_title = (self.__enemy_name + ' field.').ljust(15)
         space = 14
         if len(player1_title) > 14:
             space -= (len(player1_title) - 13)
@@ -140,13 +133,13 @@ class BoardsPrinter:
         return f"""{player1_title}{' ' * space}{player2_title}"""
 
     def printer(self, checked_dots):
-        print('\n', self.get_fields_titles())
+        print('\n' + self.get_fields_titles())
         print(*self.__letters, ' ' * 12, *self.__letters)
         for i in range(6):
-            if self.enemy_board_info.hide:
-                print(i + 1, *self.player_board_info.battle_field[i], '|', ' ' * 10,
-                      i + 1, *[self.enemy_board_info.battle_field[i][j] if (j, i) in checked_dots else ' ' for j in range(6)], '|')
+            if self.__enemy_board_info.hide:
+                print(i + 1, *self.__player_board_info.battle_field[i], '|', ' ' * 10,
+                      i + 1, *[self.__enemy_board_info.battle_field[i][j] if (j, i) in checked_dots else ' ' for j in range(6)], '|')
             else:
-                print(i + 1, *self.player_board_info.battle_field[i], '|', ' ' * 10,
-                      i + 1, *self.enemy_board_info.battle_field[i], '|')
+                print(i + 1, *self.__player_board_info.battle_field[i], '|', ' ' * 10,
+                      i + 1, *self.__enemy_board_info.battle_field[i], '|')
         print(' ', '-' * 12, ' ' * 13, '-' * 12)
