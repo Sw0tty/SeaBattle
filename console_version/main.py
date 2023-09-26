@@ -57,3 +57,4 @@ while True:
 board2.set_hide_param()
 board_printer.printer(player_switcher(now_turn_player).get_already_shoot())
 print('\n' + replies.VICTORY_STR + now_turn_player.get_name())
+input(replies.END_GAME)

@@ -33,6 +33,7 @@ WELCOME_STR = """Welcome to game, 'SeaBattle'!"""
 NAME_STR = "Before we're started, please, input you're name: "
 
 
-# Main
+# Main.py
 PLAYER_TURN = "Now turn: "
 VICTORY_STR = "Victory for: "
+END_GAME = "Press Any button to close game..."
