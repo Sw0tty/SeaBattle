@@ -3,7 +3,7 @@ Initialization file
     Create board, players and place ships on board
 """
 from .exceptions import BadSettings
-from .settings import SHIPS_SET, HIDE_FIELD, HELP_STR, LANGUAGE
+from .settings import SHIPS_SET, HIDE_FIELD, HELP_STR, LANGUAGE, INFO
 from classes.board import Board, BoardsPrinter
 from classes.players import AI, Player
 
@@ -18,6 +18,7 @@ match LANGUAGE:
 # Game
 print("┏" + "-" * 39 + "┓", "|" + (replies.WELCOME_STR).center(39) + "|", "┗" + "-" * 39 + "┛", sep='\n')
 
+print(f"[{INFO}] Support EN. Set in settings./Поддерживает RU. Измени в настройках.")
 
 # Name initialization
 def name_setter():
