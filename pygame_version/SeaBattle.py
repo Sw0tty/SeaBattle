@@ -8,31 +8,9 @@ import os
 import ctypes
 import sys
 import string
-from pathlib import Path
+from app_config.settings import *
+from classes.game_window import GameWindow
 
-# Project folder
-BASE_DIR = Path(__file__).resolve().parent
-
-# Assets folder
-ASSETS_DIR = os.path.join(BASE_DIR, 'assets')
-
-
-# Colors library
-class ColorsLib:
-    def __init__(self):
-        self.BLACK = (0, 0, 0)
-        self.SILVER = (192, 192, 192)
-        self.LIGHT_GREY = (211, 211, 211)
-        self.WHITE = (255, 255, 255)
-        self.RED = (255, 0, 0)
-        self.GREEN = (0, 255, 0)
-        self.BLUE = (0, 0, 255)
-        self.LIGHT_BLUE = (0, 255, 255)
-        self.YELLOW = (255, 255, 0)
-        self.PURPLE = (255, 0, 255)
-
-
-colors_lib = ColorsLib()
 
 
 FULL_WIDTH = ctypes.windll.user32.GetSystemMetrics(0)  # Полная ширина экрана пользователя
@@ -167,7 +145,7 @@ for i in range(6):
         ship_sprites.add(ship)
     ship_pos_x = 50
 
-print(ship_position)
+
 line_pos_x = 0
 line_pos_y = 0
 for i in range(6):
@@ -186,65 +164,85 @@ all_sprites.add(player)
 all_sprites.add(text)
 # ------------------------
 
-
-# ---------2--Цикл игры--2----------
-running = True
-while running:
-    # ---------Задание скорости FPS---------
-    clock.tick(FPS)
-    # --------------------------------------
-
+# Game logic
+def game_logic():
     # ---------Обработчик событий-----------
-    count21 = 1
-    for event in pygame.event.get():  # Цикл всех событий
-        if event.type == pygame.QUIT:  # Проверка закрытия окна
-            running = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            x, y = event.pos
-            if player.rect.collidepoint(x, y):
-                running = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            x, y = event.pos
-            for i in ship_sprites:
-                i.check_click(event.pos, press_ship=ship_position[0][1], color=ship_position[0][0])
+        count21 = 1
+        for event in pygame.event.get():  # Цикл всех событий
+            
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos
+                if player.rect.collidepoint(x, y):
+                    return False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos
+                for i in ship_sprites:
+                    i.check_click(event.pos, press_ship=ship_position[0][1], color=ship_position[0][0])
 
-                # if count21 == 1:
-                #     count21 += 1
-                #     print(ship_position[1] == ship_position[2])
-                #     print(count21)
+                    # if count21 == 1:
+                    #     count21 += 1
+                    #     print(ship_position[1] == ship_position[2])
+                    #     print(count21)
 
-    # --------------------------------------
 
-    # ---------Обновление---------
 
-    player.player_update()  # Функция заглушка для отображения. Эквивалент update()
-    text.update()
-    ship_sprites.update()
-    # ----------------------------
 
-    # -------Отрисовка-------
-    screen.fill(colors_lib.LIGHT_GREY)  # Заливка фона
 
-    a = [i for i in string.ascii_uppercase[0:6]]
-    b = "   "
-    d = "   "
 
-    f1 = pygame.font.Font(None, 50)  # Шрифт, размер
+            if event.type == pygame.QUIT:
+                return False
+        # --------------------------------------
 
-    # Следующая строка присваивает перменной text1 первые 6 букв словаря
-    text1 = f1.render(b.join(map(str, (i for i in string.ascii_uppercase[0:6]))), True, colors_lib.BLACK)
+        # ---------Обновление---------
 
-    text2 = f1.render(d.join(map(str, (abs(i) for i in range(-6, 0)))), True, colors_lib.BLACK)
-    text2 = pygame.transform.rotate(text2, 90)
+        player.player_update()  # Функция заглушка для отображения. Эквивалент update()
+        text.update()
+        ship_sprites.update()
+        # ----------------------------
 
-    screen.blit(text1, (60, 10))  # Позиция
-    screen.blit(text2, (10, 70))  # Позиция
+        # -------Отрисовка-------
+        screen.fill(colors_lib.LIGHT_GREY)  # Заливка фона
 
-    ship_sprites.draw(screen)
-    all_sprites.draw(screen)  # Отрисвока спрайтов
-    pygame.display.flip()  # После отрисовки всего, переворачиваем экран
-    # ---------------------
+        a = [i for i in string.ascii_uppercase[0:6]]
+        b = "   "
+        d = "   "
 
-# -------2----------2------
-pygame.quit()  # Закрытие окна
-# -----||----Конец скелета----||-------
+        f1 = pygame.font.Font(None, 50)  # Шрифт, размер
+
+        # Следующая строка присваивает перменной text1 первые 6 букв словаря
+        text1 = f1.render(b.join(map(str, (i for i in string.ascii_uppercase[0:6]))), True, colors_lib.BLACK)
+
+        text2 = f1.render(d.join(map(str, (abs(i) for i in range(-6, 0)))), True, colors_lib.BLACK)
+        text2 = pygame.transform.rotate(text2, 90)
+
+        screen.blit(text1, (60, 10))  # Позиция
+        screen.blit(text2, (10, 70))  # Позиция
+
+        ship_sprites.draw(screen)
+        all_sprites.draw(screen)  # Отрисвока спрайтов
+        pygame.display.flip()  # После отрисовки всего, переворачиваем экран
+        return True
+        # ---------------------
+
+# Game runner
+def runner(game_logic_func):
+    GAME_RUNING = True
+    while GAME_RUNING:
+        clock.tick(FPS)
+        GAME_RUNING = game_logic_func()
+    pygame.quit()
+
+# runner(game_logic)
+
+game_window = GameWindow()
+
+while True:
+    clock.tick(FPS)
+    game_window.print_window()
+    
+    
+    for event in pygame.event.get(): 
+        pass
+        # if event.type == pygame.QUIT:
+            # return False
+    pygame.display.flip()
