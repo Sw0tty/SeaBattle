@@ -1,5 +1,5 @@
 """
-Settings file
+Settings for SeaBattle (console_version) project.
 """
 from colorama import Fore, Style, init
 
