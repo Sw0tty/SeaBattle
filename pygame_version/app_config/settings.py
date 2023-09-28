@@ -11,6 +11,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Assets folder
 ASSETS_DIR = os.path.join(BASE_DIR, 'assets')
 
+# Game board pictograms
+EMPTY = '•'  # for circle dead ships and miss shots
+SHIP = '■'
+DEFEATED_SHIP = 'x'
 
 # Colors library
 class ColorsLib:

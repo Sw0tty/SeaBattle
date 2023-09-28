@@ -7,6 +7,7 @@ import pygame
 from app_config.settings import ASSETS_DIR
 
 
+
 FULL_WINDOW_WIDTH = ctypes.windll.user32.GetSystemMetrics(0)
 FULL_WINDOW_HEIGHT = ctypes.windll.user32.GetSystemMetrics(1)
 
